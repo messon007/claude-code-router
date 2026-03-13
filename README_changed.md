@@ -578,6 +578,46 @@ This setup allows for interesting automations, like running tasks during off-pea
 - [Maybe We Can Do More with the Router](blog/en/maybe-we-can-do-more-with-the-route.md)
 - [GLM-4.6 Supports Reasoning and Interleaved Thinking](blog/en/glm-4.6-supports-reasoning.md)
 
+## Self Verification Configuration
+cat ~/.claude-code-router/config.json 
+{
+  "LOG": true,
+  "LOG_LEVEL": "trace",
+  "API_TIMEOUT_MS": 600000,
+  "NON_INTERACTIVE_MODE": false,
+  "Providers": [
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+      "api_key": "sk-or-xxxxx",
+      "models": [
+        "openrouter/hunter-alpha",
+        "nvidia/nemotron-3-super-120b-a12b:free"
+      ],
+      "transformer": {
+        "use": [
+          "openrouter"
+        ]
+      }
+    }
+  ],
+  "Router": {
+    "default": "openrouter,openrouter/hunter-alpha",
+    "background": "openrouter,openrouter/hunter-alpha",
+    "think": "openrouter,openrouter/hunter-alpha",
+    "longContext": "openrouter,openrouter/hunter-alpha"
+  }
+}
+
+It doesn't work if add PORT / HOST, i don't know why.
+And ccr code will load setting from file /tmp/claude-code-router/ccr-settings-xxxxxx.json, if you use command claude code --settings xxx.json, it will conflict.
+In this case, you should use eval "$(ccr activate)" to avoid load the setting file which include envs only.
+
+The json file content:
+{"env":
+    {"ANTHROPIC_AUTH_TOKEN":"test","ANTHROPIC_BASE_URL":"http://127.0.0.1:3456","NO_PROXY":"127.0.0.1","DISABLE_TELEMETRY":"true","DISABLE_COST_WARNINGS":"true","API_TIMEOUT_MS":"600000"}
+    }
+
 ## ❤️ Support & Sponsoring
 
 If you find this project helpful, please consider sponsoring its development. Your support is greatly appreciated!
