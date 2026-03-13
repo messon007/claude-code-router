@@ -579,7 +579,10 @@ This setup allows for interesting automations, like running tasks during off-pea
 - [GLM-4.6 Supports Reasoning and Interleaved Thinking](blog/en/glm-4.6-supports-reasoning.md)
 
 ## Self Verification Configuration
-cat ~/.claude-code-router/config.json 
+
+cat ~/.claude-code-router/config.json
+
+```
 {
   "LOG": true,
   "LOG_LEVEL": "trace",
@@ -608,15 +611,21 @@ cat ~/.claude-code-router/config.json
     "longContext": "openrouter,openrouter/hunter-alpha"
   }
 }
+```
 
 It doesn't work if add PORT / HOST, i don't know why.
+
 And ccr code will load setting from file /tmp/claude-code-router/ccr-settings-xxxxxx.json, if you use command claude code --settings xxx.json, it will conflict.
+
 In this case, you should use eval "$(ccr activate)" to avoid load the setting file which include envs only.
 
+
 The json file content:
+```
 {"env":
     {"ANTHROPIC_AUTH_TOKEN":"test","ANTHROPIC_BASE_URL":"http://127.0.0.1:3456","NO_PROXY":"127.0.0.1","DISABLE_TELEMETRY":"true","DISABLE_COST_WARNINGS":"true","API_TIMEOUT_MS":"600000"}
-    }
+}
+```
 
 ## ❤️ Support & Sponsoring
 
